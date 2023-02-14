@@ -11,7 +11,7 @@
 //! let installed: Vec<Triple> = rustup_target::installed().unwrap();
 //! 
 //! // install some targets
-//! rustup_target::add(&["aarch64-apple-ios".parse().unwrap()]).unwrap();
+//! rustup_target::install(&["aarch64-apple-ios".parse().unwrap()]).unwrap();
 //! ```
 mod error;
 
@@ -44,8 +44,8 @@ pub fn installed() -> Result<Vec<Triple>, RustupTargetError> {
     Ok(list()?.into_iter().filter(|(_, inst)| *inst).map(|(t, _)| t).collect())
 }
 
-/// Add a list of rust targets, using the `rustup target add` command
-pub fn add(list: &[Triple]) -> Result<(), RustupTargetError> {
+/// Install a list of rust targets, using the `rustup target add` command
+pub fn install(list: &[Triple]) -> Result<(), RustupTargetError> {
     let mut cmd = Command::new("rustup");
     cmd.arg("target").arg("add");
     for triple in list {

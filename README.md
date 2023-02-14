@@ -13,5 +13,5 @@ let list: Vec<(Triple, bool)> = rustup_target::list().unwrap();
 let installed: Vec<Triple> = rustup_target::installed().unwrap();
 
 // install some targets
-rustup_target::add(&["aarch64-apple-ios".parse().unwrap()]).unwrap();
+rustup_target::install(&["aarch64-apple-ios".parse().unwrap()]).unwrap();
 ```

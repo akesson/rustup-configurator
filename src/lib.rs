@@ -2,16 +2,16 @@
 //! It uses the [target-lexicon](https://crates.io/crates/target-lexicon) Triple to identify targets.
 //!
 //! ```rust
-//! use rustup_target::Triple;
+//! use rustup_configurator::Triple;
 //!
 //! // get a list of all targets and if they are installed
-//! let list: Vec<(Triple, bool)> = rustup_target::list().unwrap();
+//! let list: Vec<(Triple, bool)> = rustup_configurator::list().unwrap();
 //!
 //! // get all installed targets
-//! let installed: Vec<Triple> = rustup_target::installed().unwrap();
+//! let installed: Vec<Triple> = rustup_configurator::installed().unwrap();
 //! 
 //! // install some targets
-//! rustup_target::install(&["aarch64-apple-ios".parse().unwrap()]).unwrap();
+//! rustup_configurator::install(&["aarch64-apple-ios".parse().unwrap()]).unwrap();
 //! ```
 mod error;
 

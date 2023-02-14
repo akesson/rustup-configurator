@@ -2,6 +2,10 @@
 name = "rustup-configurator"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+repository = "https://github.com/akesson/rustup-configurator"
+description = "Helper for listing and adding rustup targets and toolchains (coming)"
+keywords = ["rustup", "target", "toolchain"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

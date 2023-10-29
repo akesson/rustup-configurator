@@ -9,7 +9,7 @@
 //!
 //! // get all installed targets
 //! let installed: Vec<Triple> = rustup_configurator::installed().unwrap();
-//! 
+//!
 //! // install some targets
 //! rustup_configurator::install(&["aarch64-apple-ios".parse().unwrap()]).unwrap();
 //! ```
@@ -30,7 +30,7 @@ pub fn list() -> Result<Vec<(Triple, bool)>, RustupTargetError> {
         .arg("target")
         .arg("list")
         .output()
-        .map_err(|e| RustupTargetError::ProcessFailed(e))?;
+        .map_err(RustupTargetError::ProcessFailed)?;
 
     let out = extract_stdout(&output)?;
 
@@ -41,7 +41,11 @@ pub fn list() -> Result<Vec<(Triple, bool)>, RustupTargetError> {
 ///
 /// Returns a list of targets triples and a bool indicating if the target is installed
 pub fn installed() -> Result<Vec<Triple>, RustupTargetError> {
-    Ok(list()?.into_iter().filter(|(_, inst)| *inst).map(|(t, _)| t).collect())
+    Ok(list()?
+        .into_iter()
+        .filter(|(_, inst)| *inst)
+        .map(|(t, _)| t)
+        .collect())
 }
 
 /// Install a list of rust targets, using the `rustup target add` command
@@ -51,9 +55,7 @@ pub fn install(list: &[Triple]) -> Result<(), RustupTargetError> {
     for triple in list {
         cmd.arg(triple.to_string());
     }
-    let output = cmd
-        .output()
-        .map_err(|e| RustupTargetError::ProcessFailed(e))?;
+    let output = cmd.output().map_err(RustupTargetError::ProcessFailed)?;
 
     // just making sure that no error was returned
     let _out = extract_stdout(&output)?;
@@ -62,7 +64,7 @@ pub fn install(list: &[Triple]) -> Result<(), RustupTargetError> {
 }
 
 fn extract_stdout(output: &std::process::Output) -> Result<String, RustupTargetError> {
-    let cleaned = strip_ansi_escapes::strip(&output.stdout).expect("Could not strip ansii escapes");
+    let cleaned = strip_ansi_escapes::strip(&output.stdout);
     let out = String::from_utf8(cleaned).expect("Could not read utf8");
 
     if !output.status.success() {
@@ -109,14 +111,11 @@ aarch64-pc-windows-msvc"###;
 
     let triples = parse_rustup_triple_list(list).unwrap();
 
-    let re_composed = format!(
-        "{}",
-        triples
-            .iter()
-            .map(|(t, inst)| format!("{} - installed: {inst:?}", t.to_string()))
-            .collect::<Vec<_>>()
-            .join("\n")
-    );
+    let re_composed = triples
+        .iter()
+        .map(|(t, inst)| format!("{t} - installed: {inst:?}"))
+        .collect::<Vec<_>>()
+        .join("\n");
     insta::assert_snapshot!(re_composed, @r###"
     aarch64-apple-darwin - installed: true
     aarch64-apple-ios - installed: true

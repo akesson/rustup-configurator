@@ -87,6 +87,11 @@ fn parse_rustup_triple_list(list: &str) -> Result<Vec<(Triple, bool)>, RustupTar
         } else {
             false
         };
+        // the Triple parsing of "wasm32-wasi-preview1-threads" fails
+        // so we just skip it here.
+        if line.contains("preview") {
+            continue;
+        }
         let triple = match Triple::from_str(line) {
             Err(e) => {
                 return Err(RustupTargetError::InvalidRustupTriple {

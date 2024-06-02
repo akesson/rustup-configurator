@@ -1,5 +1,4 @@
-//! This crate provides a simple interface to the rustup target command for listing and adding targets.
-//! It uses the [target-lexicon](https://crates.io/crates/target-lexicon) Triple to identify targets.
+//! This crate provides a simple interface to the rustup target command for listing and adding targets. 
 //!
 //! ```rust
 //! use rustup_configurator::target::Target;

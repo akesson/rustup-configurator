@@ -11,7 +11,7 @@
 //! let installed: Vec<Target> = rustup_configurator::target::installed().unwrap();
 //!
 //! // install some targets
-//! rustup_configurator::target::install(&["aarch64-apple-ios".parse().unwrap()]).unwrap();
+//! rustup_configurator::target::install(&["aarch64-apple-ios".into()]).unwrap();
 //! ```
 mod error;
 

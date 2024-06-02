@@ -10,10 +10,4 @@ pub enum RustupTargetError {
         stderr: String,
         stdout: String,
     },
-    #[error("Rustup returned an invalid triple '{line}' due to '{source}', please raise an issue at: https://github.com/akesson/rustup-target/issues")]
-    InvalidRustupTriple {
-        line: String,
-        #[source]
-        source: target_lexicon::ParseError,
-    },
 }

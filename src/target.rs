@@ -52,7 +52,7 @@ pub fn install(list: &[Triple]) -> Result<(), RustupTargetError> {
     let mut cmd = Command::new("rustup");
     cmd.arg("target").arg("add");
     for triple in list {
-        cmd.arg(triple.to_string());
+        cmd.arg(triple);
     }
     let output = cmd.output().map_err(RustupTargetError::ProcessFailed)?;
 
@@ -71,11 +71,6 @@ fn parse_rustup_triple_list(list: &str) -> Result<Vec<Target>, RustupTargetError
         } else {
             false
         };
-        // the Triple parsing of "wasm32-wasi-preview1-threads" fails
-        // so we just skip it here.
-        if line.contains("preview") {
-            continue;
-        }
         let triple = Triple::from(line);
         targets.push(Target { triple, installed });
     }
